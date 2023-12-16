@@ -10,23 +10,6 @@ from googleapiclient.errors import HttpError
 app = Flask(__name__)
 cors = CORS(app)
 
-podcast_episodes = [
-    {
-        'id': 1,
-        'title': 'Episode 1: Introduction',
-        'description': 'Welcome to our podcast!',
-        'image_url': 'https://example.com/image1.jpg',
-        'link': 'https://example.com/episode1'
-    },
-    {
-        'id': 2,
-        'title': 'Episode 2: Special Guest Interview',
-        'description': 'Interview with a special guest.',
-        'image_url': 'https://example.com/image2.jpg',
-        'link': 'https://example.com/episode2'
-    },
-    # Add more episodes as needed
-]
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
@@ -90,6 +73,3 @@ def get_all_episodes():
     values = cred()
     return jsonify(values)
 
-
-if __name__ == '__main__':
-    app.run(debug=False)
