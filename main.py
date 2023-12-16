@@ -11,4 +11,3 @@ def get_random_word():
     words = ['nikyl', 'sandy', 'madhu', 'fida', 'mano', 'sacky', 'narasingan', 'Krishna', 'lathish']
     random_word = random.choice(words)
     return jsonify({'word': random_word})
-
