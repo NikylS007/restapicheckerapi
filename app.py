@@ -10,7 +10,6 @@ from googleapiclient.errors import HttpError
 app = Flask(__name__)
 cors = CORS(app)
 
-
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
@@ -18,11 +17,14 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 SAMPLE_SPREADSHEET_ID = "1yTOn046dB0ig97Np8w9ksDEihCTitrgWkUO4_X-3vOw"
 SAMPLE_RANGE_NAME = "Form responses 1!A2:G"
 
+global values
+
 
 def cred():
     """Shows basic usage of the Sheets API.
   Prints values from a sample spreadsheet.
   """
+    global values
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -56,7 +58,6 @@ def cred():
         if not values:
             print("No data found.")
             return
-        return values
 
     except HttpError as err:
         print(err)
@@ -64,12 +65,18 @@ def cred():
 
 @app.route('/api/latest_episode', methods=['GET'])
 def get_latest_episode():
-    values = cred()
+    if values is None:
+        cred()
     return jsonify(values[-1])
+
+
+@app.route('/api/update_episode', methods=['GET'])
+def get_update_episode():
+    cred()
 
 
 @app.route('/api/all_episodes', methods=['GET'])
 def get_all_episodes():
-    values = cred()
+    if values is None:
+        cred()
     return jsonify(values)
-
