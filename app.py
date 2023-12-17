@@ -17,14 +17,11 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 SAMPLE_SPREADSHEET_ID = "1yTOn046dB0ig97Np8w9ksDEihCTitrgWkUO4_X-3vOw"
 SAMPLE_RANGE_NAME = "Form responses 1!A2:G"
 
-global values
-
 
 def cred():
     """Shows basic usage of the Sheets API.
   Prints values from a sample spreadsheet.
   """
-    global values
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
@@ -58,25 +55,28 @@ def cred():
         if not values:
             print("No data found.")
             return
+        return values
 
     except HttpError as err:
         print(err)
 
 
+global data
+data = cred()
+
+
 @app.route('/api/latest_episode', methods=['GET'])
 def get_latest_episode():
-    if values is None:
-        cred()
-    return jsonify(values[-1])
+    return jsonify(data[-1])
 
 
 @app.route('/api/update_episode', methods=['GET'])
 def get_update_episode():
-    cred()
+    global data
+    data = cred()
+    return "Update Success"
 
 
 @app.route('/api/all_episodes', methods=['GET'])
 def get_all_episodes():
-    if values is None:
-        cred()
-    return jsonify(values)
+    return jsonify(data)
