@@ -80,3 +80,7 @@ def get_update_episode():
 @app.route('/api/all_episodes', methods=['GET'])
 def get_all_episodes():
     return jsonify(data)
+
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
